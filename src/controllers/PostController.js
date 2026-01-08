@@ -3,13 +3,13 @@ const Post = require('../models/Post');
 module.exports = {
     // Lista Pública (Alunos e Professores)
     async index(req, res) {
-        console.log("--> Acessou rota GET /posts"); //Log de entrada
+        //console.log("--> Acessou rota GET /posts"); //Log de entrada
         try {
-            const posts = await Post.find();
+            const posts = await Post.find().sort({ dataCriacao: -1});
             return res.status(200).json(posts);
-        } catch (error) {
+        } catch (err) {
             console.error("ERRO AO LISTAR POSTS:", err); 
-            return res.status(500).json({ error: 'Erro interno ao listar posts', details: err.message });
+            return res.status(500).json({ error: 'Erro interno ao listar posts'});
         }
     },
 
@@ -21,9 +21,8 @@ module.exports = {
             }
             const posts = await Post.find({ $text: { $search: q}});
             return res.status(200).json(posts);
-        } catch (error) {
-            console.error("ERRO NA BUSCA:", err);
-            return res.status(500).json({ error: 'Erro n abusca'});
+        } catch (err) {
+            return res.status(500).json({ error: 'Erro na busca'});
         }
     },
 
@@ -34,7 +33,9 @@ module.exports = {
                 return res.status(404).json({ error: 'Post não encontrado' });
             }
             return res.status(200).json(post);
-        } catch (e) { return res.status(400).json({error: 'ID Inválido!'});}
+        } catch (e) {
+             return res.status(400).json({error: 'ID Inválido!'});
+        }
     },
 
     // Apenas Professores (Validado na Rota)
@@ -42,8 +43,7 @@ module.exports = {
         try {
             const post = await Post.create(req.body);
             return res.status(201).json(post);
-        } catch (error) {
-            console.error("ERRO AO CRIAR POST:", err);
+        } catch (err) {
             return res.status(400).json({ error: 'Erro ao criar post' });
         }
     },
@@ -59,7 +59,7 @@ module.exports = {
             return res.status(404).json({ error: 'Post não encontrado' });
             }
             return res.status(200).json(post);
-        } catch (error) {
+        } catch (err) {
             return res.status(400).json({ error: 'Erro ao atualizar' });
         }
     },
@@ -71,7 +71,7 @@ module.exports = {
                 return res.status(404).json({ error: 'Post não encontrado' });
             }
             return res.status(204).send(); 
-        } catch (error) {
+        } catch (err) {
             return res.status(400).json({ error: 'Erro ao deletar' });
         }
         

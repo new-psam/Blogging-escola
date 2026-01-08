@@ -17,9 +17,9 @@ const PostSchema = new mongoose.Schema({
 });
 
 // Cria um índice de texto para permitir a busca (Requisito: GET /posts/search)
-//PostSchema.index({
-    //titulo: 'text',
-    //conteudo: 'text'
-//});
+PostSchema.index({
+    titulo: 'text',
+    conteudo: 'text'
+});
 
 module.exports = mongoose.model('Post', PostSchema);
