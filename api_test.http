@@ -10,8 +10,8 @@ POST {{baseUrl}}/auth/register
 Content-Type: {{contentType}}
 
 {
-    "nome": "Professor Xavier",
-    "email": "xavier@escola.com",
+    "nome": "Professor Paulo",
+    "email": "paulo@escola.com",
     "senha": "123",
     "role": "professor"
 }
